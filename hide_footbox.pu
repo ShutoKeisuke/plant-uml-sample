@@ -1,0 +1,8 @@
+@startuml
+hide footbox
+objectA -> objectB : message1
+
+|||
+
+objectB -->> objectA : message2
+@enduml

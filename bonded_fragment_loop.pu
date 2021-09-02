@@ -1,0 +1,14 @@
+@startuml
+/'ループさせる数の指定'/
+loop 記事数
+ objectA -> objectB : message1
+end
+/'最小値と最大値を指定'/
+loop 1, 10
+ objectB -> objectC : message2
+end
+/'無限ループ'/
+loop
+ objectA -> objectC : message3
+end
+@enduml

@@ -1,0 +1,7 @@
+@startuml
+objectA -> objectB : message1
+...
+objectB -> objectA : replay1
+... abouot 10 minutes ...
+objectA -> objectB : message1
+@enduml

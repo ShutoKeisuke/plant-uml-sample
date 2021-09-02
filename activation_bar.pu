@@ -1,0 +1,10 @@
+@startuml
+user -> objectA : call
+activate objectA
+objectA -> objectB : call
+activate objectB
+objectB -->> objectA
+deactivate objectB
+objectA -->> user
+deactivate objectA
+@enduml

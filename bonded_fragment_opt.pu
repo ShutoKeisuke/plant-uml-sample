@@ -1,0 +1,8 @@
+@startuml
+objectA -> objectB : message1
+return x
+
+opt x > 0
+ objectA -> objectC : message2
+end
+@enduml

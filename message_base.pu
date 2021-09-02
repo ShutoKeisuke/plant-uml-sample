@@ -1,0 +1,8 @@
+@startuml
+' コメント1
+/'コメント2'/
+objectA -> objectB : 同期メッセージ
+objectB ->> objectC : 非同期メッセージ
+objectC -->> objectB : リプライメッセージ
+objectA -> objectA : 自分へのメッセージ
+@enduml

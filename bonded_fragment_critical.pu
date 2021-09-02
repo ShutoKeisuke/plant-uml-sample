@@ -1,0 +1,9 @@
+@startuml
+par
+ critical
+  objectA -> objectB : critical message
+ end
+ objectA -> objectB : parallel message1
+ objectA -> objectB : parallel message2
+end
+@enduml

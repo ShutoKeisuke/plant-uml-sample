@@ -1,0 +1,9 @@
+@startuml
+box "presentation" #LightBlue
+ participant objectA
+ participant objectB
+end box
+
+objectA -> objectB : message1
+objectB -> objectC : message2
+@enduml

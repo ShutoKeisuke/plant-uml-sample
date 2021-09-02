@@ -1,0 +1,11 @@
+@startuml
+participant objectA
+create objectB
+objectA -> objectB : create message
+objectA ->> objectB : destroy message
+destroy objectB
+objectA -> objectC : objectC message
+create objectD
+objectA -> objectD : objectD message
+objectC -> objectB : message
+@enduml

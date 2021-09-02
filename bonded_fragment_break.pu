@@ -1,0 +1,8 @@
+@startuml
+loop
+ objectA -> objectB : message1
+ break breal condition
+  objectA -> objectC : message2
+ end
+end
+@enduml

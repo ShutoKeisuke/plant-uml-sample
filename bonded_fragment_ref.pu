@@ -1,0 +1,12 @@
+@startuml
+participant objectA
+participant objectB
+participant objectC
+objectA -> objectB : message1
+ref over objectB, objectC : message1 detaols
+ref over objectB, objectC
+ first line
+ second line
+end ref
+objectC -->> objectB : message2
+@enduml

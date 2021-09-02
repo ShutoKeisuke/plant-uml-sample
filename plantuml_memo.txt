@@ -1,0 +1,218 @@
+シーケンス図構成要素
+　▼参考
+　https://qiita.com/couzie/items/9dedb834c5aff09ea7b2
+　https://cacoo.com/ja/blog/what-is-sequence-diagram/
+　https://note.com/kitabatakep/n/n2c684202f456
+
+　▼構成要素一覧
+　　ライフライン
+　　実行仕様
+　　停止
+　　メッセージ
+　　　同期　　　　・・・　処理先にメッセージが同期される
+　　　非同期　　　・・・　処理先にメッセージが同期されない
+　　　応答　　　　・・・　処理先のライフラインから送り手への戻り値
+　　　ファウンド　・・・　図になり送りてから送信されたこと
+　　　ロスト　　　・・・　意図していた処理先に送れていないこと
+
+　▼処理内容の記号ルール
+　　複合フラグメント
+　　　Alt　　 　・・・　条件分岐
+　　　Assert　　・・・　処理内容が妥当であるか
+　　　Par 　　　・・・　並列処理
+　　　Consider　・・・　重要処理
+　　　Neg 　　　・・・　不正処理
+　　　Ignore　　・・・　無効処理（重要ではない処理）
+　　　Opt 　　　・・・　条件指定（条件分岐との違いは条件とそれ以外という使い方らしい）
+　　　Ref 　　　・・・　外部参照（別のシーケンス図を確認してくださいという意味）
+　　　Loop　　　・・・　繰返処理
+　　　Break 　　・・・　中断処理（特定の条件を満たしたときに処理を中断する）
+　　　Critical　・・・　排他処理（特定の処理実行中は他からの処理を受けない処理）
+
+　▼メッセージの書き方例
+　　① : 基本的なメッセージ（message_base.pu）
+　　@startuml
+　　' コメント1
+　　/'コメント2'/
+　　objectA -> objectB : 同期メッセージ
+　　objectB ->> objectC : 非同期メッセージ
+　　objectC -->> objectB : リプライメッセージ
+　　objectA -> objectA : 自分へのメッセージ
+　　@enduml
+
+　　② : 外部とのメッセージ（message_external_cooperation.pu）
+　　@startuml
+　　[-> objectA : 外部からのメッセージ
+　　objectA ->] : 外部へのメッセージ
+　　@enduml
+
+　　③ : 参加者の生成と破棄（participant_create_destroy.pu）
+　　@startuml
+　　participant objectA
+　　create objectB
+　　objectA -> objectB : create message
+　　objectA ->> objectB : destroy message
+　　destroy objectB
+　　objectA -> objectC : objectC message
+　　create objectD
+　　objectA -> objectD : objectD message
+　　objectC -> objectB : message
+　　@enduml
+
+　　④ : メッセージへの注釈（annotate_nessage.pu）
+　　@startuml
+　　objectA -> objectB : objectA to B message
+　　note right : note right message
+　　objectB -> objectB
+　　/'コメント'/
+　　note left
+　　 note left message1
+　　 note left message1
+　　end note
+　　@enduml
+
+　　⑤ : アクティベーションバー（activation_bar.pu）
+　　@startuml
+　　user -> objectA : call
+　　activate objectA
+　　objectA -> objectB : call
+　　activate objectB
+　　objectB -->> objectA
+　　deactivate objectB
+　　objectA -->> user
+　　deactivate objectA
+　　@enduml
+
+　　⑥ : 結合フラグメント[Alt]（bonded_fragment_alt.pu）
+　　@startuml
+　　alt x > 0
+　　 objectA -> objectB : message1
+　　 objectB -> objectC : message2
+　　 objectC -->> objectB : message3
+　　else
+　　 objectA -> objectB : message4
+　　end
+　　objectB -->> objectA : message5
+　　@enduml
+
+　　⑦ : 結合フラグメント[Opt]（bonded_fragment_opt.pu）
+　　@startuml
+　　objectA -> objectB : message1
+　　return x
+　　
+　　opt x > 0
+　　 objectA -> objectC : message2
+　　end
+　　@enduml
+
+　　⑧ : 結合フラグメント[Loop]（bonded_fragment_loop.pu）
+　　@startuml
+　　/'ループさせる数の指定'/
+　　loop 記事数
+　　 objectA -> objectB : message1
+　　end
+　　/'最小値と最大値を指定'/
+　　loop 1, 10
+　　 objectB -> objectC : message2
+　　end
+　　/'無限ループ'/
+　　loop
+　　 objectA -> objectC : message3
+　　end
+　　@enduml
+
+　　⑨ : 結合フラグメント[Break]（bonded_fragment_break.pu）
+　　@startuml
+　　loop
+　　 objectA -> objectB : message1
+　　 break breal condition
+　　  objectA -> objectC : message2
+　　 end
+　　end
+　　@enduml
+
+　　⑩ : 結合フラグメント[Par]（bonded_fragment_par.pu）
+　　@startuml
+　　par
+　　 objectA -> objectB : message1
+　　 objectA -> objectB : message2
+　　 note right : message1とmessage2は並列処理で処理される
+　　end
+　　@enduml
+
+　　⑪ : 結合フラグメント[Critical]（bonded_fragment_critical.pu）
+　　@startuml
+　　par
+　　 critical
+　　  objectA -> objectB : critical message
+　　 end
+　　 objectA -> objectB : parallel message1
+　　 objectA -> objectB : parallel message2
+　　end
+　　@enduml
+
+　　⑫ : 結合フラグメント[Ref]（bonded_fragment_ref.pu）
+　　@startuml
+　　participant objectA
+　　participant objectB
+　　participant objectC
+　　objectA -> objectB : message1
+　　ref over objectB, objectC : message1 detaols
+　　ref over objectB, objectC
+　　 first line
+　　 second line
+　　end ref
+　　objectC -->> objectB : message2
+　　@enduml
+
+　　⑬ : メッセージの遅延（message_delay.pu）
+　　@startuml
+　　objectA -> objectB : message1
+　　...
+　　objectB -> objectA : replay1
+　　... abouot 10 minutes ...
+　　objectA -> objectB : message1
+　　@enduml
+
+　　⑭ : メッセージの間隔（message_interval.pu）
+　　@startuml
+　　objectA -> objectB : message1
+　　objectB -> objectA : replay1
+　　
+　　|||
+　　
+　　objectA -> objectB : message2
+　　objectB -> objectA : replay2
+　　
+　　/' 間隔をピクセル指定 '/
+　　||50||
+　　
+　　objectA -> objectB : message3
+　　@enduml
+
+　　⑮ : 参加者のグルーピング（participants_grouping.pu）
+　　@startuml
+　　box "presentation" #LightBlue
+　　 participant objectA
+　　 participant objectB
+　　end box
+　　
+　　objectA -> objectB : message1
+　　objectB -> objectC : message2
+　　@enduml
+
+　　⑯ : 下部の参加者エリアの非表示（hide_footbox.pu）
+　　@startuml
+　　hide footbox
+　　objectA -> objectB : message1
+　　
+　　|||
+　　
+　　objectB -->> objectA : message2
+　　@enduml
+
+　　⑰ : タイトル（title.pu）
+　　@startuml
+　　title title
+　　objectA -> objectB
+　　@enduml

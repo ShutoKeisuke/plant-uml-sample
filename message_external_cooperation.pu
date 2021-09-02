@@ -1,0 +1,4 @@
+@startuml
+[-> objectA : 外部からのメッセージ
+objectA ->] : 外部へのメッセージ
+@enduml

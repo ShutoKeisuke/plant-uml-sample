@@ -1,0 +1,10 @@
+@startuml
+alt x > 0
+ objectA -> objectB : message1
+ objectB -> objectC : message2
+ objectC -->> objectB : message3
+else
+ objectA -> objectB : message4
+end
+objectB -->> objectA : message5
+@enduml

@@ -1,0 +1,14 @@
+@startuml
+objectA -> objectB : message1
+objectB -> objectA : replay1
+
+|||
+
+objectA -> objectB : message2
+objectB -> objectA : replay2
+
+/' 間隔をピクセル指定 '/
+||50||
+
+objectA -> objectB : message3
+@enduml

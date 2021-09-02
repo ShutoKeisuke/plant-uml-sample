@@ -1,0 +1,7 @@
+@startuml
+par
+ objectA -> objectB : message1
+ objectA -> objectB : message2
+ note right : message1とmessage2は並列処理で処理される
+end
+@enduml

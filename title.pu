@@ -1,0 +1,4 @@
+@startuml
+title title
+objectA -> objectB
+@enduml
